@@ -1,0 +1,44 @@
+Start testing: Feb 25 19:33 CET
+----------------------------------------------------------
+1/1 Testing: initial_matrix_test
+1/1 Test: initial_matrix_test
+Command: "/home/andrew/cppforcv/igg_image/bin/initial_matrix_test"
+Directory: /home/andrew/cppforcv/igg_image/build/tests
+"initial_matrix_test" start time: Feb 25 19:33 CET
+Output:
+----------------------------------------------------------
+Running main() from /usr/src/gtest/src/gtest_main.cc
+[==========] Running 7 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 5 tests from ImageTest
+[ RUN      ] ImageTest.DefaultConstructor
+[       OK ] ImageTest.DefaultConstructor (0 ms)
+[ RUN      ] ImageTest.ParametrizedConstructor
+[       OK ] ImageTest.ParametrizedConstructor (0 ms)
+[ RUN      ] ImageTest.AtSetAndGetPixel
+[       OK ] ImageTest.AtSetAndGetPixel (0 ms)
+[ RUN      ] ImageTest.ConstAtAccess
+[       OK ] ImageTest.ConstAtAccess (0 ms)
+[ RUN      ] ImageTest.ComputeHistogramBasic
+[       OK ] ImageTest.ComputeHistogramBasic (0 ms)
+[----------] 5 tests from ImageTest (0 ms total)
+
+[----------] 2 tests from ImaeTest
+[ RUN      ] ImaeTest.DownScaleReducesSize
+[       OK ] ImaeTest.DownScaleReducesSize (0 ms)
+[ RUN      ] ImaeTest.UpScaleReducesSize
+[       OK ] ImaeTest.UpScaleReducesSize (0 ms)
+[----------] 2 tests from ImaeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test suites ran. (0 ms total)
+[  PASSED  ] 7 tests.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"initial_matrix_test" end time: Feb 25 19:33 CET
+"initial_matrix_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Feb 25 19:33 CET
