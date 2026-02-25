@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wall -Wextra -fPIC -O3 -rdynamic CMakeFiles/initial_matrix_test.dir/image_test.cpp.o -o ../../bin/initial_matrix_test  -Wl,-rpath,/home/andrew/cppforcv/igg_image/lib ../../lib/libImage.a ../lib/libgtest.a ../lib/libgtest_main.a ../../lib/libio_tools.so ../lib/libgtest.a 
