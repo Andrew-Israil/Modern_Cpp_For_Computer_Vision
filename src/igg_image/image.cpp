@@ -2,10 +2,14 @@
 
 namespace igg {
 
-    Image::Image(int rows=0, int cols=0)
-    : rows_{rows}, cols_{cols} 
+    Image::Image(int rows, int cols)
     {
-        data_.reserve(rows*cols);
+        if(rows > 0 && cols > 0){
+            rows_ = rows;
+            cols_ = cols;
+        }
+
+        data_.resize(rows_*cols_);
     }
 
     int Image::rows() const { return rows_;}
@@ -51,17 +55,24 @@ namespace igg {
             std::cout << "invalid bins number";
             return {};
         }
+
+        if(data_.empty()){
+            std::cout << "Empty image, can not calculate Histogram";
+            return {};
+        }
         
         std::vector<float> histogram(bins);
 
-        int bin_width = (this->max_val_ + 1) / bins;
+        int bin_width = (max_val_ + 1) / bins;
 
         for(auto& pixel : this->data_){
             int bin = pixel / bin_width;
+            if (bin >= bins)
+                bin = bins - 1;
             histogram[bin]++;
         }
 
-        float  data_size = static_cast<float>(this->data_.size());
+        float  data_size = static_cast<float>(data_.size());
         for(float& bin : histogram){
             bin /= data_size;
         }
@@ -74,7 +85,8 @@ namespace igg {
         int scaled_rows = this->rows_ / scale;
         int scaled_cols = this->cols_ / scale;
 
-        std::vector<int> new_data(scaled_rows * scaled_cols);
+        std::vector<int> new_data;
+        new_data.reserve(scaled_rows * scaled_cols);
 
         for(int i=0; i<this->rows_; i+=scale){
             for(int j=0; j<this->cols_; j+=scale){
@@ -92,7 +104,8 @@ namespace igg {
         int scaled_rows = this->rows_ * scale;
         int scaled_cols = this->cols_ * scale;
 
-        std::vector<int> new_data(scaled_rows * scaled_cols);
+        std::vector<int> new_data;
+        new_data.reserve(scaled_rows * scaled_cols);
 
         
         for(int r = 0; r < scaled_rows; ++r){
