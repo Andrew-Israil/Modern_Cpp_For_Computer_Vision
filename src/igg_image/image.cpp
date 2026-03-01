@@ -33,6 +33,7 @@ namespace igg {
         io_tools::ImageData img{ io_tools::ReadFromPgm(file_name)};
 
         if(img.data.empty()){
+            std::cout<<"Tried to fill image from empty file" << std::endl;
             return false;
         }
 

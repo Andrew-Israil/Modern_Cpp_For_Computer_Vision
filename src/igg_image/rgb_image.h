@@ -2,28 +2,34 @@
 
 #include <vector>
 #include <iostream>
-#include "io_tools.h"
 #include "igg_image/io_strategies/strategy.h"
 
 namespace igg {
 
-class Image {
+class RGBImage {
  public:
-  Image(int rows=0, int cols=0);
+  
+  struct Pixel {
+    int red;
+    int green;
+    int blue;
+  };
+
+  RGBImage(int rows=0, int cols=0, const IoStrategy& io_strategy);
 
   int rows() const;
 
   int cols() const;
 
-  int& at(int row, int col);                  // get a pixel value
+  Pixel& at(int row, int col);                  // get a pixel value
 
-  const int& at(int row, int col) const;      // set a pixel value
+  const Pixel& at(int row, int col) const;      // set a pixel value
 
   bool FillFromPgm(const std::string& file_name);
 
   void WriteToPgm(const std::string& file_name) const;
 
-  std::vector<float> ComputeHistogram(int bins) const;
+  std::vector<std::vector<float>> ComputeHistogram(int bins) const;
 
   void DownScale(int scale);
 
@@ -33,7 +39,8 @@ class Image {
   int rows_ = 0;
   int cols_ = 0;
   int max_val_ = 255;
-  std::vector<int> data_;
+  std::vector<Pixel> data_;
+  const IoStrategy& strategy_;
 };
 
 }  // namespace igg

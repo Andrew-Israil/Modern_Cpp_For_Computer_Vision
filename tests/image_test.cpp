@@ -57,7 +57,7 @@ TEST(ImageTest, ComputeHistogramBasic) {
 }
 
 /******************* Image Downscaling Test *******************/
-TEST(ImaeTest, DownScaleReducesSize){
+TEST(ImaeTest, DownScaleReducesSizeAndSelectKPixels){
     igg::Image img(4,4);
 
     for(int r = 0; r < 4; ++r){
@@ -82,8 +82,24 @@ TEST(ImaeTest, DownScaleReducesSize){
     EXPECT_EQ(img.at(1,0), 0);
 }
 
+TEST(ImageTest, DownScaleByOneKeepsSameSize) {
+    igg::Image img(3,3);
+
+    img.DownScale(1);
+
+    EXPECT_EQ(img.rows(), 3);
+    EXPECT_EQ(img.cols(), 3);
+}
+
+TEST(ImaeTest, DownScaleReducesSizeAndSelectKPixelsRealImage){
+    igg::Image img;
+    img.FillFromPgm("../../data/lena.ascii.pgm");
+    img.DownScale(2);
+    img.WriteToPgm("lena_copy.ascii.pgm");
+}
+
 /******************* Image Upscaling Test *******************/
-TEST(ImaeTest, UpScaleReducesSize){
+TEST(ImaeTest, UpScaleIncrementSizeAndInterpolate){
     igg::Image img(2,2);
 
     img.at(0,0) = 255;
@@ -106,4 +122,13 @@ TEST(ImaeTest, UpScaleReducesSize){
             }
         }
     }
+}
+
+TEST(ImageTest, UpScaleByOneKeepsSameSize) {
+    igg::Image img(3,3);
+
+    img.UpScale(1);
+
+    EXPECT_EQ(img.rows(), 3);
+    EXPECT_EQ(img.cols(), 3);
 }

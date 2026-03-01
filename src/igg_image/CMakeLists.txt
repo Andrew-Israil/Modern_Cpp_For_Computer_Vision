@@ -1,3 +1,4 @@
+add_subdirectory(io_strategies)
 #################### Import the 'io_tools' library here ########################
 find_library(IOTOOLS_LIB_PATH 
              NAMES libio_tools.so
