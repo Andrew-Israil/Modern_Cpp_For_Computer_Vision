@@ -13,6 +13,9 @@ namespace igg {
         data_.resize(rows_*cols_);
     }
 
+    RGBImage::RGBImage(const IoStrategy& io_strategy)
+        : strategy_{io_strategy} {}
+
     int RGBImage::rows() const { return rows_;}
 
     int RGBImage::cols() const { return cols_;}
@@ -29,26 +32,48 @@ namespace igg {
         return data_[index];
     }
 
-    bool RGBImage::FillFromPgm(const std::string& file_name)
+    bool RGBImage::ReadFromDisk(const std::string& file_name)
     {
-        // io_tools::ImageData img{ io_tools::ReadFromPgm(file_name)};
+        ImageData img{ strategy_.Read(file_name) };
 
-        // if(img.data.empty()){
-        //     std::cout<<"Tried to fill image from empty file" << std::endl;
-        //     return false;
-        // }
+        if(img.data.empty()){
+            std::cout<<"Tried to fill image from empty file" << std::endl;
+            return false;
+        }
 
-        // this->rows_ = img.rows;
-        // this->cols_ = img.cols;
-        // this->max_val_ = img.max_val;
-        // this->data_ = std::move(img.data);
+        rows_ = img.rows;
+        cols_ = img.cols;
+        max_val_ = img.max_val;
+        int data_size = rows_*cols_;
+        data_.resize(data_size);
+        for(int i = 0; i < data_size; ++i){
+            data_[i].red = img.data[0][i];
+            data_[i].green = img.data[1][i];
+            data_[i].blue = img.data[2][i];
+        }
         return  true;
     }
 
-    void RGBImage::WriteToPgm(const std::string& file_name) const
+    void RGBImage::WriteToDisk(const std::string& file_name) const
     {
-        // io_tools::ImageData img{this->rows_, this->cols_, this->max_val_, this->data_};
-        // io_tools::WriteToPgm(img, file_name);
+        ImageData img;
+        img.rows = rows_;
+        img.cols = cols_;
+        img.max_val = max_val_;
+
+        img.data.resize(3);
+        int data_size = rows_*cols_;
+        enum Color{RED, GREEN, BLUE};
+        img.data[RED].resize(data_size);
+        img.data[GREEN].resize(data_size);
+        img.data[BLUE].resize(data_size);
+        for(int i = 0; i < data_size; ++i){
+            img.data[RED][i] = data_[i].red;
+            img.data[GREEN][i] = data_[i].green;
+            img.data[BLUE][i] = data_[i].blue;
+        }
+        
+        strategy_.Write(file_name, img);
     }
 
     std::vector<std::vector<float>> RGBImage::ComputeHistogram(int bins) const
@@ -122,8 +147,7 @@ namespace igg {
         int scaled_rows = this->rows_ * scale;
         int scaled_cols = this->cols_ * scale;
 
-        std::vector<RGBImage::Pixel> new_data;
-        new_data.reserve(scaled_rows * scaled_cols);
+        std::vector<RGBImage::Pixel> new_data(scaled_rows * scaled_cols);
 
         
         for(int r = 0; r < scaled_rows; ++r){

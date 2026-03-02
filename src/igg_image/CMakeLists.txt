@@ -12,3 +12,7 @@ if(IOTOOLS_LIB_PATH )
 else()
     message(FATAL_ERROR "io_tools library not found in lib/ directory!")
 endif()
+
+add_library(rgb_image rgb_image.cpp)
+
+target_link_libraries(rgb_image strategies)

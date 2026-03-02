@@ -15,7 +15,9 @@ class RGBImage {
     int blue;
   };
 
-  RGBImage(int rows=0, int cols=0, const IoStrategy& io_strategy);
+  RGBImage(int rows, int cols, const IoStrategy& io_strategy);
+
+  RGBImage(const IoStrategy& io_strategy);
 
   int rows() const;
 
@@ -25,9 +27,9 @@ class RGBImage {
 
   const Pixel& at(int row, int col) const;      // set a pixel value
 
-  bool FillFromPgm(const std::string& file_name);
+  bool ReadFromDisk(const std::string& file_name);
 
-  void WriteToPgm(const std::string& file_name) const;
+  void WriteToDisk(const std::string& file_name) const;
 
   std::vector<std::vector<float>> ComputeHistogram(int bins) const;
 
