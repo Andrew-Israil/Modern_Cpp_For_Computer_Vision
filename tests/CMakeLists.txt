@@ -11,10 +11,13 @@ set(TEST_BINARY ${PROJECT_NAME}_test)
 
 ##################### Create your tests below this line ########################
 
-add_executable(${TEST_BINARY} image_test.cpp)
+add_executable(${TEST_BINARY}  ppm_strategy_test.cpp)
+
+#image_test.cpp
 
 target_link_libraries(${TEST_BINARY}
-                        Image 
+                        Image
+                        strategies
                         gtest gtest_main)
 
 add_test(NAME ${TEST_BINARY}

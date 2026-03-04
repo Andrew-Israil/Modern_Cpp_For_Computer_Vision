@@ -8,18 +8,44 @@
 
 namespace igg {
 
+using namespace std;
+
 bool PpmIoStrategy::Write(const std::string& file_name,
                           const ImageData& data) const {
+    ofstream outfile(file_name);
+    if(! outfile.is_open()){
+        cerr << "Can't open " << file_name << endl;
+        return false;
+    }
 
+    int max_pixels_per_row = 5; /*to comply with the recommendation of
+                                  max 70 char per row*/
+      
+    outfile << "P3\n"
+            << data.rows << " " << data.cols << "\n" 
+            << data.max_val << "\n";
+    
+    for (int i = 0; i < data.rows * data.cols; ++i) {
+        outfile << data.data[0][i] << " " 
+                << data.data[1][i] << " " 
+                << data.data[2][i] << "  ";
+
+        if (((i + 1) % data.cols == 0) || ((i + 1) % max_pixels_per_row == 0)) 
+            outfile << "\n";
+    }
+
+    return true;
 }
 
 ImageData PpmIoStrategy::Read(const std::string& file_name) const{
-    using namespace std;
-    
-    ifstream infile("ppmfile.txt", ios_base ::in);
-    string line, format;
-
     ImageData img;
+    ifstream infile(file_name, ios_base ::in);
+    if (!infile) {
+        cerr << "Error: Can not open file " << file_name << std::endl;
+        return img;
+    }
+
+    string line, format;
     img.rows = -1;
     img.cols = -1;
     img.max_val = -1;
